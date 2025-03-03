@@ -25,11 +25,16 @@ jobs:
 
     - name: 2. Installing dependencies
       run: |
-        pip install gym
+        python -m pip install --upgrade pip
+        pip install gym==0.26.0
+        pip install torch==2.0.0 --index-url https://download.pytorch.org/whl/cpu
         pip install -r requirements.txt
+        pip list  # List installed packages for debugging
 
     - name: 3. Grant execution permission to eval.bin
       run: chmod +x eval.bin  # 確保 eval.bin 可以執行
 
     - name: 4. Running your code
-      run: ./eval.bin --token a91aae52cff9ef65932db06b150ffd47  # 執行 eval.bin
+      run: |
+        export PYTHONPATH=$PYTHONPATH:$(pwd)
+        ./eval.bin --token a91aae52cff9ef65932db06b150ffd47  # 執行 eval.bin
